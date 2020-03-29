@@ -5,6 +5,7 @@
 .idea/misc.xml
 *.class
 *.log
+.idea
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -13,3 +14,4 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+/src/test/java/lections/
