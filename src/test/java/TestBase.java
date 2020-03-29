@@ -34,6 +34,9 @@ public class TestBase {
         driver.findElement(By.name("password")).sendKeys(creds);
         driver.findElement(By.name("login")).click();
     }
+    protected void goToStore(){
+        driver.get("http://localhost/litecart/");
+    }
 
     public boolean isElementPresent(By locator){
         try {
