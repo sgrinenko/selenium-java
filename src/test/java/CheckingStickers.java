@@ -5,8 +5,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class CheckingStrickers extends TestBase {
-
+public class CheckingStickers extends TestBase {
     @Test
     public void checkStickers() {
         goToStore();
@@ -16,10 +15,10 @@ public class CheckingStrickers extends TestBase {
         for (WebElement sticker : stickers) {
             if (sticker.getText().equals("NEW")) {
                 newSticker++;
-            }else if (sticker.getText().equals("SALE")){
+            } else if (sticker.getText().equals("SALE")) {
                 saleSticker++;
             }
         }
-        Assert.assertEquals(stickers.size(),saleSticker+newSticker);
+        Assert.assertEquals(stickers.size(), saleSticker + newSticker);
     }
 }
