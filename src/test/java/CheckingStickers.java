@@ -9,16 +9,11 @@ public class CheckingStickers extends TestBase {
     @Test
     public void checkStickers() {
         goToStore();
-        List<WebElement> stickers = driver.findElements(By.cssSelector(".product div.sticker"));
-        int newSticker = 0;
-        int saleSticker = 0;
-        for (WebElement sticker : stickers) {
-            if (sticker.getText().equals("NEW")) {
-                newSticker++;
-            } else if (sticker.getText().equals("SALE")) {
-                saleSticker++;
-            }
+        List<WebElement> products = driver.findElements(By.cssSelector(".product"));
+        for (WebElement product : products) {
+           List<WebElement> stickerInProduct = product.findElements(By.cssSelector("div.sticker"));
+           Assert.assertTrue(stickerInProduct.size()==1);
         }
-        Assert.assertEquals(stickers.size(), saleSticker + newSticker);
+
     }
 }
