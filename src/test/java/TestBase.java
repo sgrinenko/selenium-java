@@ -57,6 +57,7 @@ public class TestBase {
 
                 return false;
             }
+            System.out.println(l.get(i).getText()+" "+ l.get(i + 1).getText());
         }
         return true;
     }

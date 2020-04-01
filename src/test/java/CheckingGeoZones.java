@@ -20,7 +20,7 @@ public class CheckingGeoZones extends TestBase {
             driver.findElement(By.xpath("//table[@class='dataTable']//tr[@class='row']["+i+"]/td[3]/a")).click();
             isElementPresent(By.tagName("h2"));
             WebElement tableZones = driver.findElement(By.id("table-zones"));
-            List<WebElement> zoneList = tableZones.findElements(By.xpath(".//td[3]/select"));
+            List<WebElement> zoneList = tableZones.findElements(By.xpath(".//td[3]/select/option[@selected='selected']"));
             isSorted(zoneList);
             driver.navigate().back();
         }
