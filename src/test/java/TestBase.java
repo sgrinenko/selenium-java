@@ -4,7 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -18,15 +20,15 @@ public class TestBase {
 
     @Before
     public void setUp() {
-        driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 3);
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     }
 
     @After
     public void tearDown() {
-        driver.quit();
-        driver = null;
+//        driver.quit();
+//        driver = null;
     }
 
     protected void loginAsAdmin() {
@@ -52,14 +54,23 @@ public class TestBase {
     protected boolean isSorted(List<WebElement> l) {
         for (int i = 1; i < l.size() - 1; i++) {
             if (l.get(i).getText().compareTo(l.get(i + 1).getText()) > 0
-                    || l.get(i).getText().compareTo(l.get(i + 1).getText()) == 0 && l.get(i+1).getText()!=null) {
-                System.out.println(l.get(i).getText() + " >" + l.get(i+1).getText()+ "<") ;
+                    || l.get(i).getText().compareTo(l.get(i + 1).getText()) == 0 && l.get(i + 1).getText() != null) {
+                System.out.println(l.get(i).getText() + " >" + l.get(i + 1).getText() + "<");
 
                 return false;
             }
-            System.out.println(l.get(i).getText()+" "+ l.get(i + 1).getText());
+            System.out.println(l.get(i).getText() + " " + l.get(i + 1).getText());
         }
         return true;
+    }
+
+    protected void checkBox(boolean set, By path) {
+        WebElement el = driver.findElement(path);
+        if (set && !el.isSelected()) {
+            el.click();
+        } else if (!set && el.isSelected()) {
+            el.click();
+        }
     }
 
     protected boolean areElementsPresent(By locator) {
