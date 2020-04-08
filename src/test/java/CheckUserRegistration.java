@@ -16,8 +16,6 @@ public class CheckUserRegistration extends TestBase {
         goToStore();
         driver.findElement(By.cssSelector("div.content table a")).click();
         isElementPresent(By.cssSelector("h1[title*=Create Account]"));
-        System.out.println(rnd);
-        System.out.println(rnd);
         driver.findElement(By.cssSelector("input[name=firstname]")).sendKeys("testUserName");
         driver.findElement(By.cssSelector("input[name=lastname]")).sendKeys("testUserLastName");
         driver.findElement(By.cssSelector("input[name=address1]")).sendKeys(String.format("someWhere street %s buildind %s", new AtomicInteger().incrementAndGet(), new AtomicInteger().incrementAndGet()));

@@ -21,14 +21,15 @@ public class TestBase {
     @Before
     public void setUp() {
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 3);
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 5);
+        driver.manage().timeouts().pageLoadTimeout(5,TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     @After
     public void tearDown() {
-//        driver.quit();
-//        driver = null;
+        driver.quit();
+        driver = null;
     }
 
     protected void loginAsAdmin() {
