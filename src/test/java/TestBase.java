@@ -1,12 +1,8 @@
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -22,8 +18,9 @@ public class TestBase {
     public void setUp() {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 5);
-        driver.manage().timeouts().pageLoadTimeout(5,TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
         //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
     }
 
     @After
@@ -78,5 +75,9 @@ public class TestBase {
         return driver.findElements(locator).size() > 0;
     }
 
+    public void setDatePicker(WebDriver driver, String cssSelector, String date) {
+        new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(cssSelector))));
+        ((JavascriptExecutor) driver).executeScript(String.format("$('%s').datepicker('setDate', '%s')", cssSelector, date));
+    }
 
 }
