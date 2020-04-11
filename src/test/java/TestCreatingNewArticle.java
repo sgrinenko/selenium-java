@@ -86,7 +86,7 @@ public class TestCreatingNewArticle extends TestBase {
             if (name.getText().equals(productName)) {
                 Assert.assertTrue(true);
                 break;
-            }else if (name.getText().equals(productName) && foundNewProductNames.indexOf(name)==foundNewProductNames.size()){
+            }else if (!name.getText().equals(productName) && foundNewProductNames.indexOf(name)==foundNewProductNames.size()){
                 throw new RuntimeException("Not found expected product name");
             }
         }
