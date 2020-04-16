@@ -1,35 +1,42 @@
+import com.google.common.io.Files;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class TestBase {
 
-    protected WebDriver driver;
+    protected EventFiringWebDriver driver;
     protected WebDriverWait wait;
     private String creds = "admin";
 
     @Before
-    public void setUp() {
-        driver = new FirefoxDriver();
+    public void setUp() throws MalformedURLException {
+        driver = new EventFiringWebDriver(new ChromeDriver());
+        driver.register(new MyListener());
         wait = new WebDriverWait(driver, 5);
-        //driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
     @After
     public void tearDown() {
+        driver.manage().logs().get("browser").forEach(l -> System.out.println(l));
         driver.quit();
         driver = null;
     }
 
     protected void loginAsAdmin() {
-        driver.get("http://localhost/litecart/admin/");
+        driver.get("http://192.168.0.106/litecart/admin/");
         driver.findElement(By.name("username")).sendKeys(creds);
         driver.findElement(By.name("password")).sendKeys(creds);
         driver.findElement(By.name("login")).click();
@@ -77,6 +84,42 @@ public class TestBase {
     public void setDatePicker(WebDriver driver, String cssSelector, String date) {
         new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(cssSelector))));
         ((JavascriptExecutor) driver).executeScript(String.format("$('%s').datepicker('setDate', '%s')", cssSelector, date));
+    }
+
+    public static class MyListener extends AbstractWebDriverEventListener {
+        @Override
+        public void beforeFindBy(By by, WebElement element, WebDriver driver) {
+            System.out.println(by);
+        }
+
+        @Override
+        public void afterFindBy(By by, WebElement element, WebDriver driver) {
+            System.out.println(by +  " found");
+        }
+
+        @Override
+        public void onException(Throwable throwable, WebDriver driver) {
+            System.out.println(throwable);
+            File tmp = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+            File screen = new File(".\\src\\test\\resources\\screen-"+ System.currentTimeMillis()+".png");
+            try {
+                Files.copy(tmp,screen);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(screen);
+        }
+
+        @Override
+        public void beforeNavigateTo(String url, WebDriver driver) {
+            System.out.println("Opening the URL :" + url);
+        }
+        @Override
+        public void afterNavigateTo(String url, WebDriver driver) {
+            System.out.println(url + " is opened ");
+        }
+
+
     }
 
 }
