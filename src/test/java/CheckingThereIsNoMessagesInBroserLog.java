@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public class CheckingThereIsNoMessagesInBroserLog extends TestBase{
 
@@ -24,7 +25,7 @@ public class CheckingThereIsNoMessagesInBroserLog extends TestBase{
         for (int i=1;i<categoriesProducts.size();i++){
            driver.findElements(By.xpath("//table[@class='dataTable']//tr[@class='row']//td[3]/a[contains(@href,'category_id=1')]")).get(i).click();
 
-            if(!driver.manage().logs().get("browser").getAll().isEmpty()) {
+            if(!driver.manage().logs().get("browser").filter(Level.ALL).isEmpty()) {
                 driver.manage().logs().get("browser").forEach(l-> System.out.println(l));
                 throw  new  RuntimeException("while clicking on browser log contains message above");
             }
