@@ -31,4 +31,5 @@ dependencies {
     compile('net.lightbody.bmp:browsermob-core:2.1.5'){
         exclude module: 'selenium'
     }
+    implementation 'com.tngtech.java:junit-dataprovider:1.13.1'
 }
